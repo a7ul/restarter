@@ -9,6 +9,7 @@ interface Config {
   healthCheckUrl?: string;
   healthCheckInterval: number;
   maxRetries: number;
+  expectedStatusCodes?: number[];
 }
 
 export class ProcessManager {
@@ -50,6 +51,9 @@ export class ProcessManager {
       let response: Response | null = null;
       try {
         response = await fetch(this.config.healthCheckUrl);
+        if (this.config.expectedStatusCodes) {
+          return this.config.expectedStatusCodes.includes(response.status);
+        }
         return response.ok;
       } catch {
         return false;
@@ -172,8 +176,9 @@ function showHelp() {
 Usage: restarter [options] <command> [args...]
 
 Options:
-  --health-check-command  Command to run for health check
+  --health-check-command   Command to run for health check
   --health-check-url      URL to ping for health check
+  --expected-status-codes Comma-separated list of acceptable HTTP status codes (default: 2xx)
   --check-interval        Health check interval in milliseconds (default: 5000)
   --max-retries          Maximum number of restart attempts (default: unlimited)
   --help                 Show this help message
@@ -181,6 +186,7 @@ Options:
 Example:
   restarter --health-check-url http://localhost:3000/health node server.js
   restarter --health-check-command "curl localhost:3000" ./my-server
+  restarter --health-check-url http://localhost:3000/health --expected-status-codes 200,201,204 node server.js
 `);
 }
 
@@ -216,6 +222,7 @@ async function main() {
     string: [
       "health-check-command",
       "health-check-url",
+      "expected-status-codes",
       "check-interval",
       "max-retries",
     ],
@@ -235,6 +242,7 @@ async function main() {
     command: command,
     healthCheckInterval: Number(args["check-interval"]),
     maxRetries: Number(args["max-retries"]) || -1,
+    expectedStatusCodes: args["expected-status-codes"]?.split(",").map(Number),
   };
 
   if (args["health-check-command"]) {
