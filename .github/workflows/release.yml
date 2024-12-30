@@ -28,7 +28,6 @@ jobs:
           deno compile --allow-run --allow-net --target x86_64-apple-darwin -o dist/restarter-macos-x64 main.ts
           deno compile --allow-run --allow-net --target aarch64-apple-darwin -o dist/restarter-macos-arm64 main.ts
           deno compile --allow-run --allow-net --target x86_64-pc-windows-msvc -o dist/restarter-windows-x64.exe main.ts
-          deno compile --allow-run --allow-net --target aarch64-pc-windows-msvc -o dist/restarter-windows-arm64.exe main.ts
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -38,7 +37,4 @@ jobs:
             dist/restarter-linux-arm64
             dist/restarter-macos-x64
             dist/restarter-macos-arm64
-            dist/restarter-windows-x64.exe
-            dist/restarter-windows-arm64.exe
-          draft: false
-          prerelease: false 
+            dist/restarter-windows-x64.exe 
