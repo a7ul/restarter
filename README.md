@@ -13,7 +13,7 @@ A simple process manager and monitoring tool written in Deno that automatically 
 ## Installation
 
 ```bash
-deno install --allow-run --allow-net -n restarter https://raw.githubusercontent.com/a7ul/restarter/refs/heads/main/main.ts
+deno install --global --allow-run --allow-net -n restarter https://raw.githubusercontent.com/a7ul/restarter/refs/heads/main/main.ts
 ```
 
 ## Usage
