@@ -175,7 +175,7 @@ Options:
   --health-check-command  Command to run for health check
   --health-check-url      URL to ping for health check
   --check-interval        Health check interval in milliseconds (default: 5000)
-  --max-retries          Maximum number of restart attempts (default: 3)
+  --max-retries          Maximum number of restart attempts (default: unlimited)
   --help                 Show this help message
 
 Example:
